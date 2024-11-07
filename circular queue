@@ -1,0 +1,113 @@
+#include<stdio.h>    //12:10
+#include<stdlib.h>
+
+struct queue{
+    int front;
+    int rear;
+    int size;
+    int *arr;
+    
+};
+
+int isFull(struct queue *q){
+    
+    if((q->rear+1)%q->size==q->front){
+        printf("\nqueue full");
+        return 1;
+    }
+    else
+    return 0;
+}
+
+int isEmpty(struct queue *q){
+    if(q->rear==-1 && q->front==-1){
+        printf("Queue empty.");
+        return 1;
+    }
+    
+    else 
+    return 0;
+}
+
+void enqueue(struct queue *q,int data){
+    
+    if(isFull(q)){
+        printf("\nQueue full.Cannot enqueue.");
+        
+    }
+    else{
+        q->arr[q->rear]=data;
+        q->rear=(q->rear+1)%q->size;
+        
+        printf("\n%d enqueued.",data);
+    }
+}
+
+
+
+void display(struct queue *q){
+
+    printf("\nDisplay ");
+    if(isEmpty(q)) {
+        printf("Queue is empty.");
+        return;
+    }
+    int i=q->front;
+    while(i!=q->rear){
+        printf(" %d",q->arr[i]);
+        i=(i+ 1)%q->size;
+    }
+}
+
+void dequeue(struct queue *q){
+    
+    if(isEmpty(q)){
+        printf("Cannot dequeue.queue empty");
+    }
+    else{
+    printf("%d dequeued.",q->arr[q->front]);
+    
+    if(q->front==q->rear){
+        q->front=q->rear=0;
+    }
+    else{
+        q->front=(q->front+ 1)%q->size;                              //increment the front (to remove front)
+    }
+     
+    }
+    
+}
+
+void front(struct queue *q){
+    printf("\nFront : %d",q->arr[q->front]);
+}
+
+void rear(struct queue *q){
+    printf("\nRear : %d",q->arr[q->rear -1]);
+}
+
+
+int main(){
+    int data;
+    struct queue *q=(struct queue *)malloc(sizeof(struct queue));
+    q->front=0;
+    q->rear=0;
+    q->size=6;
+    q->arr=(int *)malloc(q->size*sizeof(int));
+    
+    // printf("Enter data: ");
+    // scanf("%d",&data);
+    enqueue(q,1);
+    enqueue(q,2);
+    enqueue(q,3);
+    enqueue(q,4);
+    enqueue(q,5);
+    enqueue(q,6);
+    display(q);
+    front(q);
+    rear(q);
+    
+    
+    
+    
+}
