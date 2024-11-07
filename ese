@@ -1,0 +1,99 @@
+#include<stdio.h>  //3
+#include<stdlib.h>
+
+struct node {
+    int data;
+    struct node *prev;
+    struct node *next;
+    
+};
+
+struct node *createNode(int data){
+    struct node *newNode=(struct node *)malloc(sizeof(struct node));
+    
+    newNode->data=data;
+    newNode->prev=NULL;
+    newNode->next=NULL;
+    printf("\n%d node created.",newNode->data);
+    return newNode;
+}
+
+struct node *buildList(struct node *head,int data){
+    
+    struct node *temp;
+    struct node *newNode=createNode(data);
+    
+    if(head==NULL){
+        head=newNode;
+    }
+    else{
+        temp=head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=newNode;
+        newNode->prev=temp;
+    }
+    printf("\n%d inserted.",newNode->data);
+    return head;
+    
+}
+
+void display(struct node *head){
+    
+    printf("\nDisplay :");
+    struct node *temp=head;
+    while(temp!=NULL){
+        printf(" %d ",temp->data);
+        temp=temp->next;
+    }
+    
+}
+struct node *delete(struct node *head,struct node *n){
+    
+    if(head==n){
+        
+    }
+}
+
+struct node *removeDup(struct node *head){
+    
+    struct node *p=head;
+    struct node *q;
+    while(p!=NULL && p->next!=NULL){
+        int n1=p->data;
+        q=p->next;
+        int n2=q->data;
+        if(n1==n2){
+            struct node * nextdel=delete(head,q);
+        }
+        p=p->next;
+        
+    }
+    return head;
+}
+
+
+
+int main(){
+    int data,len1,len2;
+    struct node *temp=NULL;
+    struct node *head=NULL;
+
+    printf("Enter length of list : ");
+    scanf("%d",&len1);
+    
+    
+    for(int i=0;i<len1;i++){
+        printf("\nEnter element %d : ",i+1);
+        scanf("%d",&data);
+        head=buildList(head,data);
+        
+    }
+    printf("List : ");
+    display(head);
+    
+    struct node *anshead=removeDup(head);
+    display(anshead);
+    
+}
