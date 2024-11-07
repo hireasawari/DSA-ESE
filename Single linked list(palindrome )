@@ -1,0 +1,110 @@
+#include<stdio.h>         //11pm
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+
+
+struct node *createNode(int data){
+    struct node *n=(struct node *)malloc(sizeof(struct node));
+    
+    n->data=data;
+    n->next=NULL;
+    printf(" %d node created.",n->data);
+    return n;
+}
+
+void display(struct node * head){
+    
+    printf("\nDisplay: \n");
+    while(head!=NULL){
+        printf("%d ",head->data);
+        head=head->next;
+    }
+}
+
+struct node *reverse(struct node * head){
+    
+    struct node *prev=NULL;
+    struct node *next=NULL;
+    struct node *current = head;
+    
+    while(current!=NULL){
+        next=current->next;
+        current->next=prev;
+        prev=current;
+        current=next;
+    }
+    return prev;
+}
+
+
+void checkPalindrome(struct node * head){
+    int palindrome=1;
+    struct node *slow=head;
+    struct node *fast=head;
+    
+    while(fast!=NULL &&fast->next!=NULL){
+        
+        slow=slow->next;                       //go ahead by 1 and slow->will give->middle element
+        fast=fast->next->next;                 //fast go ahead by 2 and fast->will give->last element
+        
+    }
+    
+    struct node *secondhalf=reverse(slow);                      //1->2->3->2->1 compare to check palindrome if    1->2->3   and reverse of second half i.e. 3->2->1
+    struct node *firsthalf=head;
+    
+    
+    while(secondhalf!=NULL){                    //firsthalf has  1->2->3->2->1(we will stop at3)    but second half has only 1->2->3
+            if(firsthalf->data==secondhalf->data){                                               //hence we use second half for comparison in while loop and not forsthalf
+                palindrome =1;
+                firsthalf=firsthalf->next;
+                secondhalf=secondhalf->next;
+                
+            }
+            else{
+                palindrome =0;
+                break;
+            }
+    }
+    if(palindrome){
+        printf(" \nList is palindrome.");
+    }
+    else{
+        printf(" \nList is not palindrome.");
+
+    }
+
+}
+
+
+
+int main(){
+    
+    struct node *head=NULL;
+    struct node * temp=NULL;
+
+    int len,data;
+    printf("Enter length of list : ");
+    scanf("%d",&len);
+    
+    for(int i=0;i<len;i++){
+        printf("\nEnter data %d : ",i+1);
+        scanf("%d",&data);
+
+    struct node *newNode=createNode(data);
+       
+        if(head==NULL){
+            head=newNode;
+        }
+        else{
+            temp->next=newNode;
+            
+        }
+        temp=newNode;
+    }
+    display(head);
+    checkPalindrome(head);
+}
