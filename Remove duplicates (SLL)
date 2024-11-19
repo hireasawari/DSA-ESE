@@ -1,0 +1,94 @@
+#include<stdio.h>    //2.30
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node *next;
+};
+
+struct node *createNode(int data){
+    struct node *newNode=(struct node*)malloc(sizeof(struct node));
+    newNode->next=NULL;
+    newNode->data=data;
+    return newNode;
+}
+
+struct node *createLL(struct node *head,int data){
+    struct node *t=head;
+    
+    if(head==NULL){
+        head=createNode(data);
+        
+    }
+    else{
+        while(t->next!=NULL){
+            t=t->next;
+        }
+         t->next=createNode(data);  
+    }
+    return head;
+}
+
+void display(struct node *head){
+    
+    while(head!=NULL){
+        printf("| %d ",head->data);
+        head=head->next;
+    }
+}
+
+
+struct node *removeDup(struct node * head){
+    int val1,val2;
+    struct node *temp=head;
+    
+    while(temp!=NULL && temp->next!=NULL){
+        val1=temp->data;
+        val2=temp->next->data;
+        
+        if(val1==val2){
+            struct node *p=temp->next;
+            temp->next=temp->next->next;
+            free(p);
+            temp=temp->next;
+            
+        }
+        else{
+            temp=temp->next;
+        }
+    }
+    return head;
+}
+
+
+
+
+int main(){
+    int data,choice;
+    struct node *head;
+    
+   
+    int a=1;
+    while(a){
+    printf("\nEnter choice :  1.Insert   2.Sorted List\n");
+    scanf("%d",&choice);
+    
+    switch(choice){
+    case 1:
+    printf("Enter data :");
+    scanf("%d",&data);
+    head=createLL(head,data);
+    display(head);
+    break;
+    
+    case 2:
+    head=removeDup(head);
+    display(head);
+    break;
+    }
+    }
+    
+    
+    
+    
+}
