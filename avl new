@@ -1,0 +1,124 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node{
+    int data;
+    struct node *left;
+    struct node *right;
+    int height;
+};
+
+struct node *createNode(int data){
+    struct node *newNode=(struct node*)malloc(sizeof(struct node));
+    newNode->left=NULL;
+    newNode->right=NULL;
+    newNode->data=data;
+    newNode->height=1;
+    return newNode;
+}
+
+int getHeight(struct node* node) {
+    if (node == NULL)
+        return -1; 
+
+    int leftHeight = getHeight(node->left);
+    int rightHeight = getHeight(node->right);
+
+    return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+}
+
+
+int getBalanceFactor(struct node* node) {
+    if (node == NULL)
+        return 0; 
+
+    int leftHeight = getHeight(node->left);
+    int rightHeight = getHeight(node->right);
+
+    return leftHeight - rightHeight;
+}
+
+struct node leftrotate(struct node *root){
+    struct node *x=root;
+    struct node *y=x->right;
+    struct node*t2=y->left;
+    
+    y->left=x;
+    x->right=t2;
+    
+    x->height=getHeight(x);
+    y->height=getHeight(y);
+    return y;
+}
+
+struct node rightrotate(struct node *root){
+    struct node *y=root;
+    struct node *x=y->left;
+    struct node*t2=y->right;
+    
+    x->right=y;
+    y->left=t2;
+    
+    y->height=getHeight(y);
+    x->height=getHeight(x);
+    return y;
+}
+
+
+struct node *insert( struct node * root,int data){
+    
+    
+    if(root==NULL){
+        return createNode(data);
+        
+    }
+    if(data<root->data){
+        root->left=insert(root->left,data);
+        return root;
+    }
+    else if(data>root->data) {
+        root->right=insert(root->right,data);
+        return root;
+    }
+    
+    root->height=getHeight(root);
+    int balfac=getBalanceFactor(root);
+    
+    if(balfac>1 && data<root->left->data)               //ll
+    rightrotate(root);
+    
+    else if(balfac>1 && data>root->right->data)          //rr
+    leftrotate(root);
+    
+    else if(balfac>1  && data<root->right->data)         //rl
+    rightrotate(root->right);
+    leftrotate(root);
+    
+    else if(balfac>1  && data>root->left)               //lr
+    leftrotate(root->left);
+    rightrotate(root);
+    
+    
+    
+}
+
+
+
+
+
+int main(){
+    struct node *root=createNode(7);
+   
+   
+    
+   inorder(root);
+
+    
+    
+
+    
+    
+
+    
+
+}
